@@ -1,9 +1,55 @@
-# import the pygame module, so you can use it
 import pygame
-import time
+from player import Player
+from message_broker import Pulsar
+
+def main():
+    worldx = 960
+    worldy = 720
+    fps = 40  # frame rate
+    ani = 4  # animation cycles
+    world = pygame.display.set_mode([worldx, worldy])
+
+    # backdrop = pygame.image.load(os.path.join('images', 'stage.png'))
+    clock = pygame.time.Clock()
+    pygame.init()
+    # backdropbox = world.get_rect()
+    main_flag = True
+
+    player = Player("upside-down.png")  # spawn player
+    player.rect.x = 0  # go to x
+    player.rect.y = 0  # go to y
+    player_list = pygame.sprite.Group()
+    player_list.add(player)
+
+    '''
+    Main Loop
+    '''
+
+    pulsar = Pulsar("video-game")
+    consumer = pulsar.consumer("video-game")
+    while True:
+        msg = consumer.receive()
+        command = msg.value()
+        if command == "up":
+            player.move_up()
+        if command == "down":
+            player.move_down()
+        if command == "right":
+            player.move_right()
+        if command == "left":
+            player.move_left()
+
+        consumer.acknowledge(msg)
+
+        # world.blit(backdrop, backdropbox)
+        world.fill((0, 0, 0))
+        player_list.draw(world)
+        pygame.display.flip()
+        clock.tick(fps)
+
 
 # define a main function
-def main():
+def old_main():
     # initialize the pygame module
     pygame.init()
     # load and set the logo
@@ -66,8 +112,6 @@ def main():
                 if is_over:
                     screen.fill((255, 0, 0))
                     pygame.display.flip()
-
-
 
 
 # run the main function only if this module is executed as the main script
