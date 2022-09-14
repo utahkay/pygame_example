@@ -1,5 +1,9 @@
+import threading
+
 import pygame
 import os
+
+import driver
 
 
 class Player(pygame.sprite.Sprite):
@@ -7,9 +11,10 @@ class Player(pygame.sprite.Sprite):
     Spawn a player
     """
 
-    def __init__(self, avatar_path):
+    def __init__(self, avatar_path: str, name: str):
         pygame.sprite.Sprite.__init__(self)
         self.images = []
+        self.name = name
 
         img = pygame.image.load(avatar_path).convert()
         img = pygame.transform.scale(img, (80, 80))
@@ -31,6 +36,10 @@ class Player(pygame.sprite.Sprite):
 
     def move_right(self):
         self.rect.x += self.distance
+
+    def control(self):
+        t = threading.Thread(target=driver.drive, args=(self.name,))
+        t.start()
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ import pygame
 from message_broker import Pulsar
 
 
-def main():
+def drive(name):
     pulsar = Pulsar("video-game")
     pygame.init()
 
@@ -17,17 +17,17 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     print("up")
-                    pulsar.send_message("up")
+                    pulsar.send_message(f"{name}:up")
                 if event.key == pygame.K_DOWN:
                     print("down")
-                    pulsar.send_message("down")
+                    pulsar.send_message(f"{name}:down")
                 if event.key == pygame.K_LEFT:
                     print("left")
-                    pulsar.send_message("left")
+                    pulsar.send_message(f"{name}:left")
                 if event.key == pygame.K_RIGHT:
                     print("right")
-                    pulsar.send_message("right")
+                    pulsar.send_message(f"{name}:right")
 
 
 if __name__ == "__main__":
-    main()
+    drive("test")
