@@ -10,6 +10,10 @@ class Pulsar:
     def consumer(self, topic):
         return self.client.subscribe(topic, topic+"-subscription", consumer_type=ConsumerType.Exclusive)
 
+    def consumer_with_callback(self, topic, callback):
+        return self.client.subscribe(topic, topic+"-subscription", consumer_type=ConsumerType.Exclusive,
+                                     message_listener=callback)
+
     def auth_params(self):
         issuer_url = "https://auth.sncloud-stg.dev"
         private_key = "/Users/kayjohansen/service-account/sa-continuous-verification-staging.json"
