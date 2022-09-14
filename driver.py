@@ -5,6 +5,10 @@ from message_broker import Pulsar
 def drive(name):
     pulsar = Pulsar("video-game")
     pygame.init()
+    pygame.display.set_mode((500, 500))
+
+    print("")
+    print(f"{name}, use the arrow keys to drive")
 
     main_flag = True
     while main_flag:
