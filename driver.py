@@ -30,4 +30,5 @@ def drive(name):
 
 
 if __name__ == "__main__":
-    drive("test")
+    player_name = input("What's your name?").strip()
+    drive(player_name)
