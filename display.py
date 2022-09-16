@@ -4,22 +4,33 @@ from message_broker import Pulsar
 import time
 
 
+def create_player(name):
+    player = Player("upside-down.png", name)
+    player.rect.x, player.rect.y = (0, 0)
+    players[name] = player
+    player_list.add(player)
+
+
 def receive_messages(consumer, msg):
     msg_str = msg.data().decode('utf-8')
     _player_name = msg_str.split(":")[0]
     position = msg_str.split(":")[1]
     print(msg_str)
 
-    if _player_name in players:
-        _player = players[_player_name]
-        if position == "up":
-            _player.move_up()
-        if position == "down":
-            _player.move_down()
-        if position == "right":
-            _player.move_right()
-        if position == "left":
-            _player.move_left()
+    if _player_name not in players:
+        create_player(_player_name)
+
+    _player = players[_player_name]
+    if position == "up":
+        _player.move_up()
+    if position == "down":
+        _player.move_down()
+    if position == "right":
+        _player.move_right()
+    if position == "left":
+        _player.move_left()
+
+    consumer.acknowledge(msg)
 
 
 def display():
@@ -49,19 +60,9 @@ if __name__ == "__main__":
     ani = 4  # animation cycles
     world = pygame.display.set_mode([960, 720])
 
-    player1 = Player("upside-down.png", "kay")  # spawn player
-    player2 = Player("upside-down.png", "lishen")  # spawn player
-    # p = Process(target=driver.drive, args=(player_name,))
-    # p.start()
     players = {
-        "kay": player1,
-        "lishen": player2
     }
 
-    player1.rect.x, player1.rect.y = (0, 0)
-    player2.rect.x, player2.rect.y = (400, 400)
     player_list = pygame.sprite.Group()
-    player_list.add(player1)
-    player_list.add(player2)
 
     display()
