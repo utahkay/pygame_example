@@ -15,13 +15,13 @@ class Pulsar:
                                      message_listener=callback)
 
     def auth_params(self):
-        issuer_url = "https://auth.sncloud-stg.dev"
-        private_key = "/Users/kayjohansen/service-account/sa-continuous-verification-staging.json"
-        audience = "urn:sn:pulsar:cv-pulsar:test-2-10"
+        issuer_url = "https://auth.streamnative.cloud/"
+        private_key = "/Users/kayjohansen/sndev-kjtest.json"
+        audience = "urn:sn:pulsar:sndev:kj-game"
         return json.dumps({"issuer_url": issuer_url, "private_key": private_key, "audience": audience})
 
     def pulsar_client(self):
-        service_url = "pulsar+ssl://test-2-10.cv-pulsar.sn3.dev:6651"
+        service_url = "pulsar+ssl://kj-game.sndev.snio.cloud:6651"
         return Client(service_url, authentication=AuthenticationOauth2(self.auth_params()))
 
     def send_message(self, msg):

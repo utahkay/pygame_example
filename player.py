@@ -1,9 +1,5 @@
-import threading
 
 import pygame
-import os
-
-import driver
 
 
 class Player(pygame.sprite.Sprite):
@@ -23,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.images[0]
         self.rect = self.image.get_rect()
 
-        self.distance = 5
+        self.distance = 15
 
     def move_up(self):
         self.rect.y -= self.distance
@@ -36,10 +32,6 @@ class Player(pygame.sprite.Sprite):
 
     def move_right(self):
         self.rect.x += self.distance
-
-    def control(self):
-        t = threading.Thread(target=driver.drive, args=(self.name,))
-        t.start()
 
 
 if __name__ == "__main__":

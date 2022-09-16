@@ -1,6 +1,9 @@
 import pygame
+
+import driver
 from player import Player
 from message_broker import Pulsar
+from multiprocessing import Process
 
 
 def main():
@@ -23,7 +26,9 @@ def main():
     main_flag = True
 
     player = Player("upside-down.png", player_name)  # spawn player
-    player.control()
+    # p = Process(target=driver.drive, args=(player_name,))
+    # p.start()
+
     players[player_name] = player
     player.rect.x = 0  # go to x
     player.rect.y = 0  # go to y
